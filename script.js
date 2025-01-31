@@ -4,6 +4,8 @@ const form = document.querySelector("#form")
 const selectTag = document.querySelector("#pokemon")
 const infoContainer = document.querySelector(".infoContainer")
 const music = document.querySelector("#music")
+const backColor = document.querySelector(".backColor")
+const pokemonName = document.querySelector("#name")
 
 
 const img = document.createElement("img")
@@ -40,6 +42,7 @@ async function start() {
   form.addEventListener("submit",event => {
     event.preventDefault()
     pokemonID = selectTag.value
+
     urlPokemonID = +pokemonID+1
 
     displayPokemonInfo(pokemonCollection[pokemonID].url)
@@ -63,7 +66,9 @@ async function displayPokemonInfo(url) {
 
   setBackgroundColor(speciesData)
 
+
   createImg(pokemonData, infoContainer)
+  setTextInfo()
   startMusic(pokemonData)
 }
 
@@ -80,11 +85,12 @@ function createSelection(names){
   }
 }
 
-function createOption(name, i){
+function createOption(name, id){
   const optionElement = document.createElement("option")
   optionElement.innerHTML = name
-  optionElement.value = i
+  optionElement.value = id
   selectTag.append(optionElement)
+
 }
 
  // img settings
@@ -92,6 +98,7 @@ function createImg(data, place){
   place.prepend(img)
   img.src = data.sprites.other["official-artwork"].front_default
   img.style.width = "1000px"
+  img.style.zIndex = "1"
 }
 
   //music settings
@@ -102,5 +109,11 @@ function startMusic(data){
 }
 
 function setBackgroundColor(data){
-  infoContainer.style.backgroundColor = data.color.name
+  backColor.style.backgroundColor = data.color.name
+  console.log(`10px solid dark${data.color.name}`);
+  backColor.style.border = `10px solid dark${data.color.name}`
+}
+
+function setTextInfo(){
+  pokemonName.innerHTML = pokeNames[pokemonID]
 }
